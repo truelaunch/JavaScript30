@@ -10,6 +10,7 @@
 
   <div class="keys">
     <div data-key="65" class="key">
+      <!-- kbd = keyboard input -->
       <kbd>A</kbd>
       <span class="sound">clap</span>
     </div>
@@ -58,6 +59,35 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+window.addEventListener ('keydown', playSound);
+
+function playSound (e) {
+  // determine the audio clip that corresponds with keydown event
+  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+  if (!audio) { return; }
+  else {
+    // rewind audio clip to start before playing again
+    audio.currentTime = 0;
+    audio.play();
+    key.classList.add('playing');
+  }
+}
+
+// query for all the keys so that can list for transition end
+const keys = document.querySelectorAll('.key');
+
+keys.forEach( function(i) {
+  i.addEventListener('transitionend', removeTransition);
+});
+
+function removeTransition (e) {
+  if (e.propertyName !== 'transform') { return };
+    this.classList.remove('playing');
+}
+
+
+
 
 </script>
 

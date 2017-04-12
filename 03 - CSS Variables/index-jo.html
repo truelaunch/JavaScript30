@@ -5,7 +5,7 @@
   <title>Scoped CSS Variables and JS</title>
 </head>
 <body>
-  <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
+  <h2>Update CSS Variables with <span class='highlight'>JS</span></h2>
 
   <div class="controls">
     <label for="spacing">Spacing:</label>
@@ -35,6 +35,11 @@
       filter: blur(var(--blur));
     }
 
+    .highlight {
+      color: var(--base);
+    }
+
+
     /*
       misc styles, nothing to do with CSS variables
     */
@@ -62,7 +67,24 @@
 
   <script>
     const inputs = document.querySelectorAll(".controls input");
-    console.log(inputs);
+    //console.log(inputs);
+
+    function handleUpdate() {
+      //console.log(this.value);
+      //this.dataset creates an object with that element's data attributes listed
+      //console.log(this.dataset);
+
+      const suffix = this.dataset.sizing || '';
+      //console.log(suffix);
+
+      //console.log(this.name);
+
+      document.documentElement.style.setProperty(`--${this.name}`, this.value + suffix);
+    }
+
+    //look into this fat arrow syntax further
+    inputs.forEach(input => input.addEventListener('change', handleUpdate));
+    inputs.forEach(input => input.addEventListener('mousemove', handleUpdate));
   </script>
 
 </body>
